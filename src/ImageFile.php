@@ -1,9 +1,8 @@
 <?php
 
-namespace GM\ImageFile;
+namespace GM;
 
 use \Exception;
-use \Error;
 
 class ImageFile {
 
@@ -27,7 +26,7 @@ class ImageFile {
         $content = explode(';base64,', $base64WithoutDataType[1]);
 
         if ($content === false) {
-            throw new Exception(Error::WRONG_IMAGE_FORMAT);
+            throw new Exception(Error::WRONG_FORMAT);
         }
 
         $this->type = $content[0];
@@ -35,10 +34,10 @@ class ImageFile {
         $this->imageFileString = base64_decode($this->base64String);
 
         if ($this->imageFileString === false) {
-            throw new Exception(Error::WRONG_IMAGE_FORMAT);
+            throw new Exception(Error::WRONG_FORMAT);
         }
 
-        $this->defaultPath = '/images';
+        $this->defaultPath = '/';
     }
 
     /**
@@ -53,15 +52,15 @@ class ImageFile {
     /**
      * Store the image to the storage given by $path and give him a random name started by $prefix.
      *
-     * @param null|string $path format: 'path/to/the/folder', default path: '/images'
+     * @param null|string $path format: 'path/to/the/folder/', default path: '/'
      * @param null|string $prefix
      * @return null|string
      * @throws Exception
      */
-    public function store(?string $path, ?string $prefix) : ?string {
+    public function store(?string $path = null, ?string $prefix = null) : ?string {
 
         $fileName = uniqid($prefix ?? 'IM') . '.' . $this->type;
-        $fullPath = ($path ?? $this->defaultPath) . $fileName;
+        $fullPath = $fileName;
 
         $fileStream = fopen($fullPath, 'wb');
 
