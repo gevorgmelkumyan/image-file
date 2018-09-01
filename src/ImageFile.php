@@ -52,15 +52,17 @@ class ImageFile {
     /**
      * Store the image to the storage given by $path and give him a random name started by $prefix.
      *
-     * @param null|string $path format: 'path/to/the/folder/', default path: '/'
+     * @param null|string $path
      * @param null|string $prefix
+     * @param null|string $storageUrl The function returns url to the image if this parameter is set.
+     * Otherwise, it returns the full path to the image.
      * @return null|string
      * @throws Exception
      */
-    public function store(?string $path = null, ?string $prefix = null) : ?string {
+    public function store(?string $path = null, ?string $prefix = null, ?string $storageUrl = null) : ?string {
 
         $fileName = uniqid($prefix ?? 'IM') . '.' . $this->type;
-        $fullPath = $fileName;
+        $fullPath = ($path ?? $this->defaultPath) . $fileName;
 
         $fileStream = fopen($fullPath, 'wb');
 
@@ -73,6 +75,10 @@ class ImageFile {
         }
 
         fclose($fileStream);
+
+        if ($storageUrl) {
+            return $storageUrl . $fileName;
+        }
 
         return $fullPath;
     }
