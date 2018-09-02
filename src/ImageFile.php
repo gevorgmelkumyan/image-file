@@ -1,16 +1,15 @@
 <?php
 
-namespace GM\ImageFile;
+namespace GM;
 
 use \Exception;
-use \Error;
 
 class ImageFile {
 
-    private $base64String;
-    private $imageFileString;
-    private $defaultPath;
-    private $type;
+    protected $base64String;
+    protected $imageFileString;
+    protected $defaultPath;
+    protected $type;
 
     /**
      * ImageFile constructor.
@@ -27,7 +26,7 @@ class ImageFile {
         $content = explode(';base64,', $base64WithoutDataType[1]);
 
         if ($content === false) {
-            throw new Exception(Error::WRONG_IMAGE_FORMAT);
+            throw new Exception(Error::WRONG_FORMAT);
         }
 
         $this->type = $content[0];
@@ -35,10 +34,10 @@ class ImageFile {
         $this->imageFileString = base64_decode($this->base64String);
 
         if ($this->imageFileString === false) {
-            throw new Exception(Error::WRONG_IMAGE_FORMAT);
+            throw new Exception(Error::WRONG_FORMAT);
         }
 
-        $this->defaultPath = '/images';
+        $this->defaultPath = '';
     }
 
     /**
@@ -53,12 +52,17 @@ class ImageFile {
     /**
      * Store the image to the storage given by $path and give him a random name started by $prefix.
      *
-     * @param null|string $path format: 'path/to/the/folder', default path: '/images'
+     * @param null|string $path
+     * format: 'path/to/my/folder/', default: ''
      * @param null|string $prefix
+     * @param null|string $storageUrl
+     * format: 'http{s}://mysite.com/storage/'
+     * The function returns url to the image if this parameter is set.
+     * Otherwise, it returns the full path to the image.
      * @return null|string
      * @throws Exception
      */
-    public function store(?string $path, ?string $prefix) : ?string {
+    public function store(?string $path = null, ?string $prefix = null, ?string $storageUrl = null) : ?string {
 
         $fileName = uniqid($prefix ?? 'IM') . '.' . $this->type;
         $fullPath = ($path ?? $this->defaultPath) . $fileName;
@@ -75,15 +79,23 @@ class ImageFile {
 
         fclose($fileStream);
 
+        if ($storageUrl) {
+            return $storageUrl . $fileName;
+        }
+
         return $fullPath;
     }
 
-    private function validateBase64String(string $base64String) : void {
+    /**
+     * @param string $base64String
+     * @throws Exception
+     */
+    protected function validateBase64String(string $base64String) : void {
 
         if (strpos($base64String, 'data:image/') === false ||
             strpos($base64String, ';base64,') === false) {
 
-            throw new Exception(Error::WRONG_IMAGE_FORMAT);
+            throw new Exception(Error::WRONG_FORMAT);
         }
     }
 
