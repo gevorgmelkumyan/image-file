@@ -6,10 +6,10 @@ use \Exception;
 
 class ImageFile {
 
-    private $base64String;
-    private $imageFileString;
-    private $defaultPath;
-    private $type;
+    protected $base64String;
+    protected $imageFileString;
+    protected $defaultPath;
+    protected $type;
 
     /**
      * ImageFile constructor.
@@ -37,7 +37,7 @@ class ImageFile {
             throw new Exception(Error::WRONG_FORMAT);
         }
 
-        $this->defaultPath = '/';
+        $this->defaultPath = '';
     }
 
     /**
@@ -53,8 +53,11 @@ class ImageFile {
      * Store the image to the storage given by $path and give him a random name started by $prefix.
      *
      * @param null|string $path
+     * format: 'path/to/my/folder/', default: ''
      * @param null|string $prefix
-     * @param null|string $storageUrl The function returns url to the image if this parameter is set.
+     * @param null|string $storageUrl
+     * format: 'http{s}://mysite.com/storage/'
+     * The function returns url to the image if this parameter is set.
      * Otherwise, it returns the full path to the image.
      * @return null|string
      * @throws Exception
@@ -83,12 +86,16 @@ class ImageFile {
         return $fullPath;
     }
 
-    private function validateBase64String(string $base64String) : void {
+    /**
+     * @param string $base64String
+     * @throws Exception
+     */
+    protected function validateBase64String(string $base64String) : void {
 
         if (strpos($base64String, 'data:image/') === false ||
             strpos($base64String, ';base64,') === false) {
 
-            throw new Exception(Error::WRONG_IMAGE_FORMAT);
+            throw new Exception(Error::WRONG_FORMAT);
         }
     }
 
