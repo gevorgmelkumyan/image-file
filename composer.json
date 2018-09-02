@@ -1,0 +1,13 @@
+{
+    "name": "gevorgmelkumyan/image-file",
+    "description": "The lib contains ImageFile class that allows to create and save image files provided by base64 formatted strings\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C\u001bencoded strings.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gevorg Melkumyan",
+            "email": "gevorgmelkoumyan@gmail.com"
+        }
+    ],
+    "require": {}
+}
