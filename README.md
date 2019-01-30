@@ -3,7 +3,6 @@
 [![Latest Stable Version](https://poser.pugx.org/gevorgmelkumyan/image-file/v/stable)](https://packagist.org/packages/gevorgmelkumyan/image-file)
 [![Total Downloads](https://poser.pugx.org/gevorgmelkumyan/image-file/downloads)](https://packagist.org/packages/gevorgmelkumyan/image-file)
 [![License](https://poser.pugx.org/gevorgmelkumyan/image-file/license)](https://packagist.org/packages/gevorgmelkumyan/image-file)
-
 [![Monthly Downloads](https://poser.pugx.org/gevorgmelkumyan/image-file/d/monthly)](https://packagist.org/packages/gevorgmelkumyan/image-file)
 [![Daily Downloads](https://poser.pugx.org/gevorgmelkumyan/image-file/d/daily)](https://packagist.org/packages/gevorgmelkumyan/image-file)
 
